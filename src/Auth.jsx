@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from './supabaseClient';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -9,42 +10,28 @@ export default function Auth() {
   const [role, setRole] = useState('student'); // Mặc định là học viên
   const [loading, setLoading] = useState(false);
 
-  const handleAuth = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const handleAuth = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  console.log("Bắt đầu đăng nhập với:", email);
 
-    if (isSignUp) {
-      // ĐĂNG KÝ
-      const { data, error } = await supabase.auth.signUp({
-  email,
-  password,
-  options: {
-    data: {
-      full_name: fullName,
-      role: role
-    }
+  const { data, error } = isSignUp 
+    ? await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName, role: role } } })
+    : await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    console.error("Lỗi Auth:", error.message);
+    toast.error("LỖI: " + error.message);
+  } else {
+    console.log("Thành công:", data);
+    if (isSignUp) toast.success("Đăng ký xong! Hãy thử đăng nhập.");
   }
-});
-
-if (error) {
-  alert(error.message);
-} else {
-  alert("Đăng ký thành công! Bạn có thể đăng nhập ngay.");
-  // KHÔNG CẦN gọi supabase.from('profiles').insert(...) nữa vì Trigger đã làm rồi
-}
-    } else {
-      // ĐĂNG NHẬP
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) alert(error.message);
-    }
-    setLoading(false);
-  };
+  setLoading(false);
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md border border-slate-100">
         <h2 className="text-3xl font-black text-center text-indigo-600 mb-2">PIANO CENTER</h2>
         <p className="text-center text-slate-400 text-sm mb-8">
