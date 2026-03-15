@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from './supabaseClient';
+import { supabase } from '../lib/supabase';
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function Auth() {
@@ -15,8 +15,17 @@ const handleAuth = async (e) => {
   setLoading(true);
   console.log("Bắt đầu đăng nhập với:", email);
 
+    // Thiết lập giá trị mặc định dựa trên role
+  const metadata = {
+    full_name: fullName,
+    role: role,
+    // Thêm các giá trị mặc định này để an toàn
+    commission_rate: role === 'teacher' ? 0.4 : 0,
+    tuition_rate: role === 'student' ? 200000 : 0
+  };
+
   const { data, error } = isSignUp 
-    ? await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName, role: role } } })
+    ? await supabase.auth.signUp({ email, password, options: { data: metadata } })
     : await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
