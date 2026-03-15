@@ -104,7 +104,7 @@ export default function App() {
           .eq('id', user.id);
 
         if (error) {
-          toast.error(user.is_blocked ? "Lỗi mở khóa: "+ error.message : "Lỗi khóa tài khoản: "+ error.message);
+          toast.error(user.is_blocked ? "Lỗi mở khóa: " + error.message : "Lỗi khóa tài khoản: " + error.message);
         }
         else {
           toast.success(user.is_blocked ? "Đã mở khóa" : "Đã khóa tài khoản");
@@ -152,6 +152,15 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-12">
       <Toaster />
+      // Sửa phần hiển thị tên ở Header/Sidebar
+      <p className="text-sm font-black text-slate-700">
+        {profile?.full_name || "Đang tải..."}
+      </p>
+
+// Sửa phần lấy chữ cái đầu của tên (Avatar)
+      <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black">
+        {profile?.full_name ? profile.full_name.charAt(0) : "U"}
+      </div>
       <div className="max-w-5xl mx-auto">
         {profile?.role === ROLES.TEACHER ? (
           <TeacherView profile={profile} lessons={lessons.filter(l => l.teacher_id === profile.id)} onUpdateStatus={() => loadAllData(session.user.id)} />

@@ -12,7 +12,7 @@ export default function TeacherView({ profile, lessons, onUpdateStatus }) {
       <div className="bg-indigo-600 text-white p-8 rounded-[40px] shadow-xl shadow-indigo-100 flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-black mb-2 uppercase tracking-tighter">Lịch dạy hôm nay</h2>
-          <p className="opacity-80 font-medium italic">Chào {profile.full_name}, bạn có {todayLessons.length} buổi dạy trong ngày.</p>
+          <p className="opacity-80 font-medium italic">Chào {profile?.full_name}, bạn có {todayLessons.length} buổi dạy trong ngày.</p>
         </div>
         <div className="bg-white/10 p-4 rounded-3xl"><Users size={40} /></div>
       </div>

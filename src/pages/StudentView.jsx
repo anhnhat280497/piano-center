@@ -9,7 +9,7 @@ export default function StudentView({ profile, lessons }) {
   return (
     <div className="max-w-3xl mx-auto space-y-8 animate-in slide-in-from-bottom-8 duration-700">
       <div className="bg-white p-10 rounded-[50px] shadow-sm border border-slate-100 text-center relative overflow-hidden">
-        <h2 className="text-4xl font-black text-slate-800 mb-2 italic tracking-tighter">Xin chào, {profile.full_name}!</h2>
+        <h2 className="text-4xl font-black text-slate-800 mb-2 italic tracking-tighter">Xin chào, {profile?.full_name}!</h2>
         <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em] mb-10">Tiến trình học Piano của bạn</p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-left">
